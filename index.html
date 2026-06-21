@@ -61,9 +61,14 @@
   /* device (two crossfading layers) */
   .device-wrap { position: relative; z-index: 5; height: 100vh; width: 100vw; will-change: transform; }
   .device-float { position: absolute; inset: 0; will-change: transform; }
+  /* static blurred halo for depth — rendered once, NOT a per-frame filter on the moving device */
+  .device-float::before { content: ""; position: absolute; left: 50%; top: 46%; width: 40%; height: 58%;
+    transform: translate(-50%,-50%); border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,.5) 0%, transparent 72%);
+    filter: blur(45px); z-index: 0; pointer-events: none; }
   .device { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
     max-height: 108vh; max-width: 60vw; width: auto; object-fit: contain;
-    filter: drop-shadow(0 20px 26px rgba(0,0,0,.4)); will-change: transform; backface-visibility: hidden; }
+    will-change: transform; backface-visibility: hidden; z-index: 1; }
 
   /* floating ingredients */
   .elements { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
@@ -263,11 +268,12 @@ function paint(){ const r=document.documentElement.style;
 function tweenColours(f,dur){
   const from={c1:[...cur.c1],c2:[...cur.c2],ink:[...cur.ink],accent:[...cur.accent]};
   const to={c1:hexRgb(f.c1),c2:hexRgb(f.c2),ink:hexRgb(f.ink),accent:hexRgb(f.accent)};
+  let pc=0;
   gsap.to({t:0},{t:1,duration:dur,ease:"power2.inOut",onUpdate:function(){
     const t=this.targets()[0].t;
     for(const k of ["c1","c2","ink","accent"])
       cur[k]=[0,1,2].map(i=>from[k][i]+(to[k][i]-from[k][i])*t);
-    paint();
+    if(pc++ % 2 === 0 || t>=1) paint();   // ~30fps colour repaint (full-screen gradient) — invisible, halves cost
   }});
 }
 
