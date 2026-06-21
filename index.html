@@ -170,8 +170,6 @@
     <button class="buy" id="buy">Add to Cart <span class="price">· AED 45</span></button>
   </section>
 
-  <aside class="counter"><div class="now" id="counterNow">01</div><div class="total">— 20</div></aside>
-
   <div class="selector">
     <div class="picks" id="picks"></div>
     <div class="arrows">
@@ -345,7 +343,6 @@ function go(i){
   gsap.to("#info > *",{ opacity:0, y:10, duration:dur*.3, stagger:.03, ease:"power2.in", onComplete:()=>{
     setTitle(f.name); desc.textContent=f.desc; jpname.textContent=f.jp;
     eyebrow.textContent=f.eyebrow; buyPrice.textContent="· "+f.price;
-    counterNow.textContent=String(i+1).padStart(2,"0");
     gsap.fromTo("#info > *",{opacity:0,y:10},{opacity:1,y:0,duration:dur*.5,stagger:.05,ease:"power3.out"});
   }});
 
@@ -408,7 +405,7 @@ const f0=FLAVOURS[0];
 gsap.set([devA,devB],{xPercent:-50,yPercent:REST_YP});   // device rests low (top ~70% visible)
 gsap.set([wordA,wordB],{xPercent:-50,yPercent:-50});
 paint(); buildElements(f0); setTitle(f0.name); jpname.textContent=f0.jp;
-desc.textContent=f0.desc; buyPrice.textContent="· "+f0.price; counterNow.textContent="01";
+desc.textContent=f0.desc; buyPrice.textContent="· "+f0.price;
 wordA.textContent=f0.word; gsap.set(wordA,{opacity:.32}); devA.src=f0.img;
 gsap.set(devA,{opacity:1}); eyebrow.textContent=f0.eyebrow;
 gsap.from(devA,{opacity:0,y:40,scale:.92,duration:1,ease:"power3.out"});
