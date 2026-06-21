@@ -1,0 +1,7 @@
+src_images/
+.playwright-mcp/
+contact_sheet*.jpg
+preview*.jpeg
+p_*.jpeg
+flavours.js.txt
+.DS_Store
