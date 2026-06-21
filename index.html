@@ -64,8 +64,9 @@
     will-change: transform, opacity; }
 
   /* device (two crossfading layers) */
-  .device-wrap { position: relative; z-index: 5; height: 100vh; width: 100vw; will-change: transform; }
-  .device-float { position: absolute; inset: 0; will-change: transform; }
+  .device-wrap { position: relative; z-index: 5; height: 100vh; width: 100vw; will-change: transform;
+    perspective: 1700px; }
+  .device-float { position: absolute; inset: 0; will-change: transform; transform-style: preserve-3d; }
   /* static blurred halo for depth — rendered once, NOT a per-frame filter on the moving device */
   .device-float::before { content: ""; position: absolute; left: 50%; top: 46%; width: 40%; height: 58%;
     transform: translate(-50%,-50%); border-radius: 50%;
@@ -398,7 +399,13 @@ addEventListener("pointerup",e=>{
 $("#buy").addEventListener("click",()=>{ cart++; $("#cartCount").textContent=cart;
   gsap.fromTo("#buy",{scale:1},{scale:.94,duration:.1,yoyo:true,repeat:1,ease:"power2.inOut"}); });
 
-// idle float + mouse parallax
+// pseudo-spin: continuous 3D rotateY sway + gentle float (transform-only, GPU cheap)
+if(!reduce){
+  gsap.fromTo("#deviceFloat",{rotationY:-15},{rotationY:15,duration:3.0,ease:"sine.inOut",yoyo:true,repeat:-1});
+  gsap.to("#deviceFloat",{y:"-=12",duration:3.4,ease:"sine.inOut",yoyo:true,repeat:-1});
+}
+
+// mouse parallax
 if(!reduce){
   let mx=0,my=0,tx=0,ty=0;
   addEventListener("pointermove",e=>{ mx=(e.clientX/innerWidth-0.5); my=(e.clientY/innerHeight-0.5); });
