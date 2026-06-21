@@ -293,13 +293,7 @@ function setTitle(lines){
 
 const SPOTS=[{x:18,y:20},{x:82,y:16},{x:8,y:44},{x:90,y:38},{x:60,y:14},{x:50,y:78}];
 function buildElements(f){
-  elements.replaceChildren();
-  f.els.forEach((e,i)=>{
-    const s=document.createElement("span"); s.className="el"; s.textContent=e;
-    const p=SPOTS[i%SPOTS.length]; s.style.left=p.x+"%"; s.style.top=p.y+"%";
-    s.dataset.depth=(0.4+(i%3)*0.5).toFixed(2);
-    elements.appendChild(s);
-  });
+  elements.replaceChildren();   // emoji ingredients removed for now
 }
 
 function setActivePick(i){
