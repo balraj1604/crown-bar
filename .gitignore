@@ -5,3 +5,10 @@ preview*.jpeg
 p_*.jpeg
 flavours.js.txt
 .DS_Store
+sheet*.jpg
+v2_*.jpeg
+bg_purple*.png
+bg_clean*.png
+_bg.json
+*-prompt.html
+real_src/
